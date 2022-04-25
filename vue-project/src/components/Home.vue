@@ -2,12 +2,11 @@
 import { onMounted, ref } from 'vue';
 import getData from '../scripts/fetch';
 import endpoints from '../scripts/endpoints';
-import mockDB from '../../mockDB/comments.json';
+import Comment from './Comment.vue';
+
 
 const data = ref([]);
-const comment = ref('');
-const anon = ref(true);
-const postid = ref(null);
+
 
 onMounted(async () => {
     let options = {
@@ -21,16 +20,7 @@ onMounted(async () => {
     data.value = await getData(endpoints.news, options);
 })
 
-function onAddComment(e) {
-    const data = {
-        comment: comment.value,
-        anon: anon.value,
-        postid: e.target.id
-    };
-    mockDB.comments.push(data)
-    console.log(mockDB);
 
-}
 
 </script>
 
@@ -43,14 +33,7 @@ function onAddComment(e) {
             <img v-if="article.image" :src="article.image.thumbnail.contentUrl" alt="article img" />
             <img v-else src="../assets/not-found-image-15383864787lu.jpg" alt="article img" />
             <p>{{ article.description }}</p>
-            <form @submit.prevent="onAddComment" :id="id">
-                <textarea v-model="comment" :id="id"></textarea>
-                <div>
-                    <input type="checkbox" :id="id" v-model="anon"/>
-                    <label :for="id" >Anon</label>
-                </div>
-                <button>Add comment</button>
-            </form>
+            <Comment :id='id'/>
 
         </li>
     </ul>
