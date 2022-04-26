@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, reactive} from 'vue';
 import getData from '../scripts/fetch';
 
 
 const comment = ref('');
 const anon = ref(true);
-const comments = ref({});
+// const comments = ref({});
+let comments = reactive({});
 
 function onAddComment(e) {
     const data = {
@@ -17,27 +18,31 @@ function onAddComment(e) {
 
 async function onShowComments(e) {
     let res = await getData(`mockDB/comments.json`);
-    comments.value = res.comments.filter(x => x.postId == e.target.parentNode.id);
+    //  comments.value = res.comments.filter(x => x.postId == e.target.parentNode.id);
+    let articleComments = computed(() => {
+        return res.comments.filter(x => x.postId == e.target.parentNode.id);
+    });
+    comments.value = articleComments;
 }
 
 </script>
 
 
 <template>
-    <form @submit.prevent="onAddComment" :id="id">
-        <textarea v-model="comment" :id="id"></textarea>
+    <form @submit.prevent="onAddComment">
+        <textarea v-model="comment"></textarea>
         <div>
-            <input type="checkbox" :id="id" v-model="anon" />
-            <label :for="id">Anon</label>
+            <input type="checkbox" v-model="anon" />
+            <label>Anon</label>
         </div>
         <ul>
-            <li v-for="(comment) in comments" :key="comment.id">
+            <li v-for="comment in comments.value" :key="comment.postId">
                 <h4>{{ comment.email }}</h4>
                 <p>{{ comment.body }}</p>
             </li>
         </ul>
-        <button :id="id" >Add comment</button>
-        <button :id="id" @click="onShowComments">Show comments</button>
+        <button>Add comment</button>
+        <button @click="onShowComments">Show comments</button>
     </form>
 </template>
 

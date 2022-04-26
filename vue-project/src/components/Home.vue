@@ -33,7 +33,7 @@ onMounted(async () => {
             <img v-if="article.image" :src="article.image.thumbnail.contentUrl" alt="article img" />
             <img v-else src="../assets/not-found-image-15383864787lu.jpg" alt="article img" />
             <p>{{ article.description }}</p>
-            <Comment :id='id'/>
+            <Comment :id="id"/>
 
         </li>
     </ul>
