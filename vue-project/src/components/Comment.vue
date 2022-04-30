@@ -1,20 +1,25 @@
 <script setup>
-import { ref, computed, reactive} from 'vue';
+import { ref, computed, reactive } from 'vue';
 import getData from '../scripts/fetch';
 
 
-const comment = ref('');
-const anon = ref(true);
-// const comments = ref({});
+let comment = ref('');
+let anon = ref(true);
+// let comments = ref({});
 let comments = reactive({});
 
+
+
+
 function onAddComment(e) {
-    const data = {
+    let data = {
         comment: comment.value,
         anon: anon.value,
         postid: e.target.id
     };
 }
+
+
 
 async function onShowComments(e) {
     let res = await getData(`mockDB/comments.json`);
@@ -41,9 +46,9 @@ async function onShowComments(e) {
                 <p>{{ comment.body }}</p>
             </li>
         </ul>
-        <button>Add comment</button>
-        <button @click="onShowComments">Show comments</button>
+
     </form>
+    <button @click="onShowComments">Show comments</button>
 </template>
 
 
