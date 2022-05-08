@@ -8,7 +8,6 @@ import Comment from './Comment.vue';
 const data = ref([]);
 let likedArticles = reactive([]);
 
-
 onMounted(async () => {
     let options = {
         method: 'GET',
@@ -19,6 +18,9 @@ onMounted(async () => {
         }
     };
     data.value = await getData(endpoints.news, options);
+    console.log();
+  
+
 })
 
 function onLikedArticles(e) {
@@ -41,7 +43,7 @@ function onLikedArticles(e) {
             <img v-if="article.image" :src="article.image.thumbnail.contentUrl" alt="article img" />
             <img v-else src="../assets/not-found-image-15383864787lu.jpg" alt="article img" />
             <p>{{ article.description }}</p>
-            <Comment :id="id" />
+            <Comment :id="id"  />
             <button @click="onLikedArticles" :id="id">Like article</button>
 
         </li>

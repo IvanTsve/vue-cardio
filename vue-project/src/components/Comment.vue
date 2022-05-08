@@ -2,13 +2,10 @@
 import { ref, computed, reactive } from 'vue';
 import getData from '../scripts/fetch';
 
-
 let comment = ref('');
 let anon = ref(true);
 // let comments = ref({});
 let comments = reactive({});
-
-
 
 
 function onAddComment(e) {
@@ -40,8 +37,8 @@ async function onShowComments(e) {
             <input type="checkbox" v-model="anon" />
             <label>Anon</label>
         </div>
-        <ul>
-            <li v-for="comment in comments.value" :key="comment.postId">
+        <ul :id="id">
+            <li v-for="(comment,id) in comments.value" :key="comment.postId" :id="id">
                 <h4>{{ comment.email }}</h4>
                 <p>{{ comment.body }}</p>
             </li>
